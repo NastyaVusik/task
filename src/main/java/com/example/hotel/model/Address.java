@@ -24,4 +24,9 @@ public class Address {
     private String county;
     @NotBlank
     private String postCode;
+
+    @Override
+    public String toString() {
+        return houseNumber + " " + street + ", " + city + ", " + postCode + ", " + county;
+    }
 }

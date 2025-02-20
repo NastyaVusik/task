@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.example.hotel.dto.HotelInfoDto;
@@ -14,13 +14,15 @@ import com.example.hotel.model.Hotel;
 import com.example.hotel.repository.HotelRepository;
 
 @Service
+@RequiredArgsConstructor
 public class HotelService {
-    @Autowired
-    private HotelRepository hotelRepository;
+
+    private final HotelRepository hotelRepository;
+    private final HotelMapper hotelMapper;
 
     public List<HotelInfoDto> getAllHotels() {
         List<Hotel> hotels = hotelRepository.findAll();
-        return hotels.stream().map(HotelMapper::toDto).collect(Collectors.toList());
+        return hotels.stream().map(hotelMapper::toHotelInfoDto).collect(Collectors.toList());
     }
 
     public Optional<Hotel> getHotelById(Long id) {
@@ -28,7 +30,7 @@ public class HotelService {
     }
 
     public HotelInfoDto createHotel(Hotel hotel) {
-        return HotelMapper.toDto(hotelRepository.save(hotel));
+        return hotelMapper.toHotelInfoDto(hotelRepository.save(hotel));
     }
 
     public Hotel addAmenities(Long id, List<String> amenities) {
@@ -43,12 +45,12 @@ public class HotelService {
 
     public List<Hotel> searchHotels(String name, String brand, String city, String county, List<String> amenities) {
         return hotelRepository.findAll().stream()
-            .filter(hotel -> (name == null || hotel.getName().equalsIgnoreCase(name)) &&
-                             (brand == null || hotel.getBrand().equalsIgnoreCase(brand)) &&
-                             (city == null || hotel.getAddress().getCity().equalsIgnoreCase(city)) &&
-                             (county == null || hotel.getAddress().getCounty().equalsIgnoreCase(county)) &&
-                             (amenities == null || hotel.getAmenities().containsAll(amenities)))
-            .collect(Collectors.toList());
+                .filter(hotel -> (name == null || hotel.getName().equalsIgnoreCase(name)) &&
+                        (brand == null || hotel.getBrand().equalsIgnoreCase(brand)) &&
+                        (city == null || hotel.getAddress().getCity().equalsIgnoreCase(city)) &&
+                        (county == null || hotel.getAddress().getCounty().equalsIgnoreCase(county)) &&
+                        (amenities == null || hotel.getAmenities().containsAll(amenities)))
+                .collect(Collectors.toList());
     }
 
     public Map<String, Integer> getHotelStatistics(String param) {

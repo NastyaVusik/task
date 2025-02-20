@@ -2,7 +2,7 @@ package com.example.hotel.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,11 +12,11 @@ import com.example.hotel.dto.HotelInfoDto;
 import com.example.hotel.service.HotelSearchService;
 
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/property-view/search")
+@RequiredArgsConstructor
 public class HotelSearchController {
 
-    @Autowired
-    private HotelSearchService hotelSearchService;
+    private final HotelSearchService hotelSearchService;
 
     @GetMapping
     public List<HotelInfoDto> searchHotels(

@@ -1,10 +1,12 @@
 package com.example.hotel.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class HotelInfoDto {
     private Long id;
     private String name;

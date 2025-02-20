@@ -2,7 +2,7 @@ package com.example.hotel.controller;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.hotel.service.HotelStatisticsService;
 
 @RestController
-@RequestMapping("/histogram")
+@RequestMapping("/property-view/histogram")
+@RequiredArgsConstructor
 public class HotelStatisticsController {
 
-    @Autowired
-    private HotelStatisticsService hotelStatisticsService;
+    private final HotelStatisticsService hotelStatisticsService;
 
     @GetMapping("/{param}")
     public Map<String, Long> getHistogram(@PathVariable String param) {
