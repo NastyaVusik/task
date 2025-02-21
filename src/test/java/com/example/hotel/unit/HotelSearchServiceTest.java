@@ -29,6 +29,7 @@ public class HotelSearchServiceTest {
     HotelMapper hotelMapper;
     @InjectMocks
     HotelSearchService hotelSearchService;
+
     List<Hotel> hotelsList;
     List<HotelInfoDto> hotelsInfoDtoList;
 
@@ -103,7 +104,7 @@ public class HotelSearchServiceTest {
                     return HotelInfoDto.builder()
                             .name(hotel.getName())
                             .description(hotel.getDescription())
-                            .address(hotel.getAddress().getCity() +", " + hotel.getAddress().getCounty())
+                            .address(hotel.getAddress().getCity() + ", " + hotel.getAddress().getCounty())
                             .build();
                 });
 
@@ -144,7 +145,7 @@ public class HotelSearchServiceTest {
     }
 
     @Test
-    void searchHotels_shouldReturnEmptyList_whenNoMatchName(){
+    void searchHotels_shouldReturnEmptyList_whenNoMatchName() {
 
         //      Given
         when(hotelRepository.findAll()).thenReturn(hotelsList);
