@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-hotel-table
+      author: Anastasiya Vusik
+      changes:
+        - createTable:
+            tableName: hotel
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: brand
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: house_number
+                  type: int
+              - column:
+                  name: street
+                  type: varchar(255)
+              - column:
+                  name: city
+                  type: varchar(255)
+              - column:
+                  name: county
+                  type: varchar(255)
+              - column:
+                  name: post_code
+                  type: varchar(50)
+              - column:
+                  name: phone
+                  type: varchar(50)
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: check_in
+                  type: varchar(50)
+              - column:
+                  name: check_out
+                  type: varchar(50)
+
+  - changeSet:
+      id: 002-create-hotel-amenities-table
+      author: your_name
+      changes:
+        - createTable:
+            tableName: hotel_amenities
+            columns:
+              - column:
+                  name: hotel_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_hotel_amenities
+                    referencedTableName: hotel
+                    referencedColumnNames: id
+              - column:
+                  name: amenity
+                  type: varchar(255)
+        - addPrimaryKey:
+            tableName: hotel_amenities
+            columnNames: hotel_id, amenity
