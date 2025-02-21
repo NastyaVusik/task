@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.hotel.service.HotelStatisticsService;
 
 @RestController
-@RequestMapping("/property-view/histogram")
+@RequestMapping("/histogram")
 @RequiredArgsConstructor
 public class HotelStatisticsController {
 

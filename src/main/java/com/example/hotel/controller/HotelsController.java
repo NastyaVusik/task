@@ -18,7 +18,7 @@ import com.example.hotel.service.HotelService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/property-view/hotels")
+@RequestMapping("/hotels")
 @RequiredArgsConstructor
 public class HotelsController {
 

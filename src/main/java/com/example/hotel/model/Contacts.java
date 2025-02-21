@@ -1,7 +1,6 @@
 package com.example.hotel.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 
@@ -10,6 +9,9 @@ import jakarta.validation.constraints.NotBlank;
 @Embeddable
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Contacts {
     @NotBlank
     private String phone;

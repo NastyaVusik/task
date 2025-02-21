@@ -12,7 +12,7 @@ import com.example.hotel.dto.HotelInfoDto;
 import com.example.hotel.service.HotelSearchService;
 
 @RestController
-@RequestMapping("/property-view/search")
+@RequestMapping("/search")
 @RequiredArgsConstructor
 public class HotelSearchController {
 

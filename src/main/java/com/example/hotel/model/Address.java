@@ -1,7 +1,6 @@
 package com.example.hotel.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 
@@ -12,6 +11,9 @@ import jakarta.validation.constraints.NotNull;
 @Embeddable
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Address {
     @NotNull
     @Min(1)
