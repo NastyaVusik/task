@@ -3,6 +3,8 @@ package com.example.hotel.controller;
 import java.util.List;
 import java.util.Optional;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,25 +22,34 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/hotels")
 @RequiredArgsConstructor
+@Tag(name = "HotelsController", description = "Help to operate with hotels")
 public class HotelsController {
 
     private final HotelService hotelService;
 
+    @Operation(summary = "Get all hotels",
+            description = "Get all hotels from the base")
     @GetMapping
     public List<HotelInfoDto> getAllHotels() {
         return hotelService.getAllHotels();
     }
 
+    @Operation(summary = "Get hotel by id",
+            description = "Get hotel by curtain id")
     @GetMapping("/{id}")
     public Optional<Hotel> getHotelById(@PathVariable Long id) {
         return hotelService.getHotelById(id);
     }
 
+    @Operation(summary = "Create new hotel",
+            description = "Create new hotel with curtain parameters. And add it to the database")
     @PostMapping
     public HotelInfoDto createHotel(@Valid @RequestBody Hotel hotel) {
         return hotelService.createHotel(hotel);
     }
 
+    @Operation(summary = "Add new amenities to the hotel",
+            description = "Add list of amenities to existing hotel finding by id")
     @PostMapping("/{id}/amenities")
     public Hotel addAmenities(@PathVariable Long id, @RequestBody List<String> amenities) {
         return hotelService.addAmenities(id, amenities);
