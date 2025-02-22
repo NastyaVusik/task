@@ -2,7 +2,7 @@ package com.example.hotel.model;
 
 import lombok.*;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

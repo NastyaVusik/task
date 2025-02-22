@@ -79,10 +79,18 @@ Response:
 3. **Access the service**:
     Open your browser and navigate to `http://localhost:8089`.
 
+## Swagger UI
+
+To access the API documentation using Swagger UI, navigate to:
+```
+http://localhost:8089/swagger-ui/index.html
+```
+
 ## Dependencies
 
 - Spring Boot
 - Spring Data JPA
 - H2 Database (for testing)
 - Lombok
+- Springdoc OpenAPI
 

@@ -12,6 +12,7 @@ import com.example.hotel.model.Hotel;
 public interface HotelMapper {
 
     @Mapping(target = "address", source = ".", qualifiedByName = "mapAddressToString")
+    @Mapping(target = "phone", source = "contacts.phone")
     HotelInfoDto toHotelInfoDto(Hotel hotel);
 
     @Named("mapAddressToString")
