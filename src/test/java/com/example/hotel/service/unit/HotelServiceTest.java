@@ -2,14 +2,11 @@ package com.example.hotel.service.unit;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +44,6 @@ public class HotelServiceTest {
     HotelService hotelService;
 
     List<Hotel> hotels;
-    List<HotelInfoDto> hotelInfoDtos;
     Hotel hotel1;
     Hotel hotel2;
     HotelInfoDto hotelInfoDto1, hotelInfoDto2;
@@ -90,7 +86,6 @@ public class HotelServiceTest {
                 .build();
 
         hotels = List.of(hotel1, hotel2);
-        hotelInfoDtos = List.of(hotelInfoDto1, hotelInfoDto2);
     }
 
     @Test

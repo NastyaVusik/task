@@ -30,6 +30,7 @@ public class HotelStatisticsControllerTest {
     private HotelRepository hotelRepository;
 
     @BeforeEach
+
     void setUp() {
         hotelRepository.deleteAll();
     }
