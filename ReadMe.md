@@ -79,11 +79,36 @@ Response:
 3. **Access the service**:
     Open your browser and navigate to `http://localhost:8089`.
 
+## Building and Running with Docker
+
+To build and run the application using Docker, follow these steps:
+
+1. **Build the Docker image:**
+
+   ```sh
+   docker build -t hotel-app .
+   ```
+
+2. **Run the Docker container:**
+
+   ```sh
+   docker run -p 8092:8092 hotel-app
+   ```
+
+This Dockerfile uses multi-stage building to optimize the final image size. The application is first built using a Maven image, and then the resulting JAR file is copied into a slim OpenJDK image.
+
 ## Swagger UI
 
 To access the API documentation using Swagger UI, navigate to:
 ```
 http://localhost:8089/swagger-ui/index.html
+```
+
+## How to Run Tests
+
+To run the tests, use the following Maven command:
+```sh
+mvn test
 ```
 
 ## Dependencies
@@ -93,4 +118,6 @@ http://localhost:8089/swagger-ui/index.html
 - H2 Database (for testing)
 - Lombok
 - Springdoc OpenAPI
+- Liquibase
+- MapStruct
 
