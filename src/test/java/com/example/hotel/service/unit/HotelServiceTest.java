@@ -1,25 +1,38 @@
-package com.example.hotel.unit;
-
-import com.example.hotel.dto.HotelInfoDto;
-import com.example.hotel.mapper.HotelMapper;
-import com.example.hotel.model.Address;
-import com.example.hotel.model.Hotel;
-import com.example.hotel.repository.HotelRepository;
-import com.example.hotel.service.HotelService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+package com.example.hotel.service.unit;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.example.hotel.dto.HotelInfoDto;
+import com.example.hotel.exception.HotelNotFoundException;
+import com.example.hotel.mapper.HotelMapper;
+import com.example.hotel.model.Address;
+import com.example.hotel.model.Hotel;
+import com.example.hotel.repository.HotelRepository;
+import com.example.hotel.service.HotelService;
+
+import jakarta.validation.Validator;
 
 @ExtendWith(MockitoExtension.class)
 public class HotelServiceTest {
@@ -28,6 +41,8 @@ public class HotelServiceTest {
     HotelRepository hotelRepository;
     @Mock
     HotelMapper hotelMapper;
+    @Mock
+    Validator validator;
     @InjectMocks
     HotelService hotelService;
 
@@ -104,11 +119,10 @@ public class HotelServiceTest {
         when(hotelRepository.findById(1L)).thenReturn(Optional.of(hotel1));
 
         //      When
-        Optional<Hotel> result = hotelService.getHotelById(1L);
+        Hotel result = hotelService.getHotelById(1L);
 
         //      Then
-        assertTrue(result.isPresent());
-        assertEquals("Hotel1", result.get().getName());
+        assertEquals("Hotel1", result.getName());
         verify(hotelRepository, times(1)).findById(1L);
     }
 
@@ -118,12 +132,15 @@ public class HotelServiceTest {
         //      Given
         when(hotelRepository.findById(99L)).thenReturn(Optional.empty());
 
-        //      When
-        Optional<Hotel> result = hotelService.getHotelById(99L);
+        // When & Then: Expect exception
+        HotelNotFoundException exception = assertThrows(HotelNotFoundException.class, () -> {
+            hotelService.getHotelById(99L);
+        });
+        assertNotNull(exception);
 
-        //      Then
-        assertFalse(result.isPresent());
+        // Verify that findById was called once
         verify(hotelRepository, times(1)).findById(99L);
+
     }
 
     @Test
@@ -149,6 +166,7 @@ public class HotelServiceTest {
         //      Given
         when(hotelRepository.findById(1L)).thenReturn(Optional.of(hotel1));
         when(hotelRepository.save(hotel1)).thenReturn(hotel1);
+        when(validator.validate(hotel1)).thenReturn(Set.of());
 
         //      When
         List<String> newAmenities = List.of("Spa", "Bar");
@@ -162,16 +180,18 @@ public class HotelServiceTest {
     }
 
     @Test
-    void addAmenities_ShouldReturnNull_WhenHotelNotFound() {
+    void addAmenities_ShouldReturnNotFound_WhenHotelDoesNotExist() {
 
         //      Given
         when(hotelRepository.findById(99L)).thenReturn(Optional.empty());
 
         //      When
-        Hotel result = hotelService.addAmenities(99L, List.of("Spa"));
+        HotelNotFoundException exception = assertThrows(HotelNotFoundException.class, () -> {
+            hotelService.addAmenities(99L, List.of("Spa", "Bar"));
+        });
 
         //      Then
-        assertNull(result);
+        assertNotNull(exception);
         verify(hotelRepository, times(1)).findById(99L);
         verify(hotelRepository, never()).save(any(Hotel.class));
     }
