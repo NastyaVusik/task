@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import com.example.hotel.validation.NoEmptyStrings;
+
 @Entity
 @Getter
 @Setter
@@ -19,6 +21,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Hotel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +38,7 @@ public class Hotel {
     private Contacts contacts;
 
     @ElementCollection
+    @NoEmptyStrings(message = "Amenities should not contain empty strings")
     private List<String> amenities;
 
     @Embedded

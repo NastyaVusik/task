@@ -2,16 +2,19 @@ package com.example.hotel.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.example.hotel.dto.HotelInfoDto;
+import com.example.hotel.exception.HotelNotFoundException;
 import com.example.hotel.mapper.HotelMapper;
 import com.example.hotel.model.Hotel;
 import com.example.hotel.repository.HotelRepository;
+
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 
 @Service
 @RequiredArgsConstructor
@@ -19,14 +22,16 @@ public class HotelService {
 
     private final HotelRepository hotelRepository;
     private final HotelMapper hotelMapper;
+    private final Validator validator; // Ensure this is injected
 
     public List<HotelInfoDto> getAllHotels() {
         List<Hotel> hotels = hotelRepository.findAll();
         return hotels.stream().map(hotelMapper::toHotelInfoDto).collect(Collectors.toList());
     }
 
-    public Optional<Hotel> getHotelById(Long id) {
-        return hotelRepository.findById(id);
+    public Hotel getHotelById(Long id) {
+        return hotelRepository.findById(id)
+                .orElseThrow(() -> new HotelNotFoundException(id));
     }
 
     public HotelInfoDto createHotel(Hotel hotel) {
@@ -34,22 +39,27 @@ public class HotelService {
     }
 
     public Hotel addAmenities(Long id, List<String> amenities) {
-        Optional<Hotel> hotelOptional = hotelRepository.findById(id);
-        if (hotelOptional.isPresent()) {
-            Hotel hotel = hotelOptional.get();
-            hotel.getAmenities().addAll(amenities);
-            return hotelRepository.save(hotel);
+        Hotel hotel = hotelRepository.findById(id)
+                .orElseThrow(() -> new HotelNotFoundException(id));
+        hotel.getAmenities().addAll(amenities);
+        validateHotel(hotel);
+        return hotelRepository.save(hotel);
+    }
+
+    private void validateHotel(Hotel hotel) {
+        var violations = validator.validate(hotel);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
         }
-        return null;
     }
 
     public List<Hotel> searchHotels(String name, String brand, String city, String county, List<String> amenities) {
         return hotelRepository.findAll().stream()
-                .filter(hotel -> (name == null || hotel.getName().equalsIgnoreCase(name)) &&
-                        (brand == null || hotel.getBrand().equalsIgnoreCase(brand)) &&
-                        (city == null || hotel.getAddress().getCity().equalsIgnoreCase(city)) &&
-                        (county == null || hotel.getAddress().getCounty().equalsIgnoreCase(county)) &&
-                        (amenities == null || hotel.getAmenities().containsAll(amenities)))
+                .filter(hotel -> (name == null || hotel.getName().equalsIgnoreCase(name))
+                && (brand == null || hotel.getBrand().equalsIgnoreCase(brand))
+                && (city == null || hotel.getAddress().getCity().equalsIgnoreCase(city))
+                && (county == null || hotel.getAddress().getCounty().equalsIgnoreCase(county))
+                && (amenities == null || hotel.getAmenities().containsAll(amenities)))
                 .collect(Collectors.toList());
     }
 

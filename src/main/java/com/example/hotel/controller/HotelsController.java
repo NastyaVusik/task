@@ -37,7 +37,7 @@ public class HotelsController {
     @Operation(summary = "Get hotel by id",
             description = "Get hotel by curtain id")
     @GetMapping("/{id}")
-    public Optional<Hotel> getHotelById(@PathVariable Long id) {
+    public Hotel getHotelById(@PathVariable Long id) {
         return hotelService.getHotelById(id);
     }
 
@@ -49,9 +49,10 @@ public class HotelsController {
     }
 
     @Operation(summary = "Add new amenities to the hotel",
-            description = "Add list of amenities to existing hotel finding by id")
+            description = "Add a list of amenities to an existing hotel found by id")
     @PostMapping("/{id}/amenities")
-    public Hotel addAmenities(@PathVariable Long id, @RequestBody List<String> amenities) {
+    public Hotel addAmenities(@PathVariable Long id,
+            @RequestBody List<String> amenities) {
         return hotelService.addAmenities(id, amenities);
     }
 }
