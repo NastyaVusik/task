@@ -13,22 +13,22 @@ This service provides functionalities to manage hotels, including creating hotel
 
 ### Create Hotel
 
-- **POST /hotels**
+- **POST /property-view/hotels**
 - Request Body: JSON representation of the hotel.
 
 ### Add Amenities
 
-- **POST /hotels/{id}/amenities**
+- **POST /property-view/hotels/{id}/amenities**
 - Request Body: List of amenities to add.
 
 ### Search Hotels
 
-- **GET /hotels/search**
+- **GET /property-view/hotels/search**
 - Query Parameters: `name`, `brand`, `city`, `county`, `amenities`
 
 ### Get Hotel Statistics
 
-- **GET /histogram/{param}**
+- **GET /property-view/histogram/{param}**
 - Path Parameter: `param` (brand, city, county, amenities)
 
 ## Example
@@ -36,7 +36,7 @@ This service provides functionalities to manage hotels, including creating hotel
 ### Get Hotel Statistics by City
 
 ```
-GET /histogram/city
+GET /property-view/histogram/city
 ```
 
 Response:
@@ -51,7 +51,7 @@ Response:
 ### Get Hotel Statistics by Amenities
 
 ```
-GET /histogram/amenities
+GET /property-view/histogram/amenities
 ```
 
 Response:
@@ -77,7 +77,7 @@ Response:
     ```
 
 3. **Access the service**:
-    Open your browser and navigate to `http://localhost:8089`.
+    Open your browser and navigate to `http://localhost:8089/property-view`.
 
 ## Building and Running with Docker
 
@@ -101,7 +101,7 @@ This Dockerfile uses multi-stage building to optimize the final image size. The 
 
 To access the API documentation using Swagger UI, navigate to:
 ```
-http://localhost:8089/swagger-ui/index.html
+http://localhost:8092/property-view/swagger-ui/index.html
 ```
 
 ## How to Run Tests
