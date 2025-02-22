@@ -25,10 +25,13 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank(message = "Hotel name is required")
     private String name;
+
     private String description;
-    @NotBlank
+
+    @NotBlank(message = "Hotel brand is required")
     private String brand;
 
     @Embedded

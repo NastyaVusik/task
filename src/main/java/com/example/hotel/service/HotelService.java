@@ -22,7 +22,7 @@ public class HotelService {
 
     private final HotelRepository hotelRepository;
     private final HotelMapper hotelMapper;
-    private final Validator validator; // Ensure this is injected
+    private final Validator validator;
 
     public List<HotelInfoDto> getAllHotels() {
         List<Hotel> hotels = hotelRepository.findAll();
