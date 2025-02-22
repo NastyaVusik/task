@@ -1,0 +1,116 @@
+databaseChangeLog:
+- changeSet:
+    id: 1740219440699-1
+    author: Anastasiya Vusik
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: CONSTRAINT_4
+            name: ID
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: CITY
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: COUNTY
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: HOUSE_NUMBER
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: POST_CODE
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: STREET
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: CHECK_IN
+            type: VARCHAR(255)
+        - column:
+            name: CHECK_OUT
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: BRAND
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: EMAIL
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: PHONE
+            type: VARCHAR(255)
+        - column:
+            name: DESCRIPTION
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: NAME
+            type: VARCHAR(255)
+        tableName: HOTEL
+- changeSet:
+    id: 1740219440699-2
+    author: Anastasiya Vusik
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: HOTEL_ID
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: AMENITIES
+            type: VARCHAR(255)
+        tableName: HOTEL_AMENITIES
+- changeSet:
+    id: 1740219440699-3
+    author: Anastasiya Vusik
+    changes:
+    - createIndex:
+        associatedWith: ''
+        columns:
+        - column:
+            name: HOTEL_ID
+        indexName: FK6NH3BF7H7BYP48BW1DMW7K89I_INDEX_D
+        tableName: HOTEL_AMENITIES
+- changeSet:
+    id: 1740219440699-4
+    author: Anastasiya Vusik
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: HOTEL_ID
+        baseTableName: HOTEL_AMENITIES
+        constraintName: FK6NH3BF7H7BYP48BW1DMW7K89I
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: RESTRICT
+        onUpdate: RESTRICT
+        referencedColumnNames: ID
+        referencedTableName: HOTEL
+        validate: true
+
