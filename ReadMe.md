@@ -77,7 +77,7 @@ Response:
     ```
 
 3. **Access the service**:
-    Open your browser and navigate to `http://localhost:8089/property-view`.
+    Open your browser and navigate to `http://localhost:8092/property-view`.
 
 ## Building and Running with Docker
 
